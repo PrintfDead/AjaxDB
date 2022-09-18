@@ -11,8 +11,8 @@
     "format": "eslint --fix --ext .ts \"./src/\"",
     "make": "tsc --project \"./\""
   },
-  "main": "./dist/index.js",
-  "types": "./typings/index.d.ts",
+  "main": "./dist/structures/Instance.js",
+  "types": "./typings/structures/Instance.d.ts",
   "files": [
     "./dist/",
     "./typings/"

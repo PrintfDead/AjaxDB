@@ -1,7 +1,7 @@
 import { readdir as readDirectory } from 'node:fs/promises';
 import { resolve as createPath    } from 'node:path';
 
-const testsPath = createPath(process.cwd(), 'source', 'tests', 'methods');
+const testsPath = createPath(process.cwd(), 'src', 'tests', 'methods');
 
 const directoryFiles = await readDirectory(testsPath);
 

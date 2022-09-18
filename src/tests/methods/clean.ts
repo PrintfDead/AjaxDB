@@ -1,8 +1,12 @@
 import test from 'node:test';
 
-import Database from '../../structures/Client.js';
+import Database from '../../structures/Instance.js';
 
-test('createPointer', async () => {
+export default test('createPointer', async () => {
 
-    await Database.createPointer("Pointer", "Container"); 
+    const database = new Database({ database: 'DATABASE_TEST_NAME' });
+
+    await database.createPointer('POINTER_TEST_NAME', 'CONTAINER_TEST_NAME');
+
+    console.log(database);
 });

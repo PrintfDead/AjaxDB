@@ -17,41 +17,30 @@ npm i ajax.db --save
 # Examples:
 
 - `Create Database & Start Client Instance:`
+
 ```ts
-import { Client } from 'ajax.db';
+import AjaxDB from 'ajax.db';
 
-/**
- * @param {object} options - Put database name and path
- * @deprecated Client({ path: string});
- * @new Client({ database: string, path: string });
- * @description Instance new Client for create new database or use a database.
- */
-const AjaxDB = new Client({ database: "DatabaseName", path: "path/to/databases" });
-
-/** 
- * @param {string} event - Event name
- * @param {function} callback - Callback function
- * @description The event is emitted when the Client class is instantiated.
-*/
-AjaxDB.on('start', () => {
-
-  console.log("AjaxDB start!");
+const database = new Client({
+  
+    database: 'example',
+  
+    // directory: '/example/' 
 });
 
-/** 
- * @param {string} event- Event name
- * @param {function} callback - Callback error.
- * @type {error} ErrorClient interface
- * @description The event is emitted on some conditions of the Database class.
-*/
-AjaxDB.on('error', (error) => {
+database
+  .on('start', () => {
 
-  console.error(error);  
+  console.log("Database started!");
+})
+  .on('error', (err) => {
+
+  console.log(err);  
 });
-
-// Other conditions instantiate the Error clas and stop the database
 ```
+
 - `CreatePointer`
+
 ```ts
 
 /** 

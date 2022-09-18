@@ -1,6 +1,6 @@
 # Directories
 node_modules/
-ajax_databases/
+databases/
 dist/
 typings/
 
