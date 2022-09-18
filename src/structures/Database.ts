@@ -4,7 +4,7 @@ import BSON, { Document } from 'bson';
 
 import { BaseClient } from './BaseClient';
 
-type options = {
+type Options = {
 
   database: string
   path:     string
@@ -15,17 +15,17 @@ export interface Database {
   database: string
   path:     string
 
-  options: options
+  options: Options
 };
 
-type dataPush = {
+type DataPush = {
 
   content: object
 
   id?: string | number
 };
 
-type editKey = {
+type EditKey = {
 
   key:   string
   value: string
@@ -33,11 +33,7 @@ type editKey = {
 
 export class Database extends BaseClient {
 
-  /**
-   * @constructor
-   * @param {object} options - Put database name and path
-   */
-  constructor(options: options) {
+  constructor(options: Options) {
 
     super();
 
@@ -69,9 +65,7 @@ export class Database extends BaseClient {
   };
 
   /**
-   * @protected
-   * @description Check if the "containers" directory exists
-   * @returns boolean
+   * Check if the "containers" directory exists
    */
   protected CheckContainersDir() {
 
@@ -124,10 +118,7 @@ export class Database extends BaseClient {
   };
 
   /**
-   * @protected
-   * @async
-   * @description Create containers folder
-   * @returns void
+   * Create containers folder
    */
   protected async CreateContainers() {
     if ( !fs.existsSync(this.path + "/ajax_databases/" + this.database + "/containers") ) {
@@ -140,10 +131,7 @@ export class Database extends BaseClient {
   }
 
   /**
-   * @protected
-   * @description Write container file
-   * @param {string} container - container name
-   * @param {object} value - Container new data
+   * Write container file
    */
   protected writeContainer(container: string, value: object) {
     fs.writeFile(`${this.path}/ajax_databases/${this.database}/containers/${container}.bson`, BSON.serialize(value), (err) => { 
@@ -152,10 +140,7 @@ export class Database extends BaseClient {
   }
 
   /**
-   * @protected
-   * @description write container pointer
-   * @param {string} pointer - Pointer name 
-   * @param {object} value  - Pointer new data
+   * Write container pointer
    */
   protected writePointer(pointer: string, value: object) {
     fs.writeFile(`${this.path}/ajax_databases/${this.database}/pointers/${pointer}.bson`, BSON.serialize(value), (err) => { 
@@ -164,11 +149,7 @@ export class Database extends BaseClient {
   }
 
   /**
-   * @protected
-   * @async
-   * @description Find pointer information
-   * @param {string} key - Key to find pointer information
-   * @returns object
+   * Find pointer information
    */
   protected async findPointer(key: string) {
     if ( !this.CheckDatabaseDir() ) 
@@ -197,11 +178,7 @@ export class Database extends BaseClient {
   }
 
   /**
-   * @protected
-   * @async
-   * @description Find container information
-   * @param {string} keyOfPointer - Pointer name 
-   * @returns object
+   * Find container information
    */
   protected async findContainer(keyOfPointer: string) {
     if ( !this.CheckDatabaseDir() ) { 
@@ -244,7 +221,7 @@ export class Database extends BaseClient {
    * @param {object} data - Data to be pushed
    * @param AUTO_INCREMENT 
    */
-  public async push(key: string, data: dataPush, AUTO_INCREMENT?: boolean) {
+  public async push(key: string, data: DataPush, AUTO_INCREMENT?: boolean) {
     const pointer = await this.findPointer(key).catch(err => console.error(err));
 
     let container = await this.findContainer(key).catch(err => console.error(err));
@@ -398,34 +375,37 @@ export class Database extends BaseClient {
    * @param {object} findKey - Find key data 
    * @param {object} editKey - Edit key data
    */
-  public async edit(pointer: string, findKey: object, editKey: editKey) {
-    let pointerData: any = await this.findPointer(pointer).catch(err => console.error(err));
-    let container: any = await this.findContainer(pointer).catch(err => console.error(err));
+  public async edit(pointer: string, findKey: object, editKey: EditKey) {
 
-    if ( !container ) 
-      throw new Error("Container is not exists");
+    let pointerData: any = await this
+      .findPointer(pointer)
+      .catch(err => console.error(err));
 
-    if ( !pointerData ) 
-      throw new Error("Pointer is not exist");
+    let container: any = await this
+      .findContainer(pointer)
+      .catch(err => console.error(err));
+
+    if (!container)   throw new Error("Container is not exists");
+    if (!pointerData) throw new Error("Pointer is not exist");
     
-    await this.get(pointer, findKey).then((data: any) => {
-      if (!data) 
-        throw new Error("Container is not exists");
+    await this
+      .get(pointer, findKey)
+      .then((data: any) => {
 
-      if (!Object.keys(editKey).find(key => key === "key")) 
-        throw new Error("key is not defined");
-
-      if (!Object.keys(editKey).find(key => key === "value")) 
-        throw new Error("key is not defined");
+      if (!data)                                              throw new Error("Container is not exists");
+      if (!Object.keys(editKey).find(key => key === "key"))   throw new Error("key is not defined");
+      if (!Object.keys(editKey).find(key => key === "value")) throw new Error("key is not defined");
 
       container?.containers.forEach((x: any, y: number) => {
+
         if(x[y].content[editKey.key])
           if (container != undefined) data.content[editKey.key] = editKey.value;
       });
 
       this.writeContainer(pointerData.container, container);
 
-    }).catch(err => console.error(err));
+    })
+      .catch(err => console.error(err));
   }
  
   /**
@@ -434,15 +414,18 @@ export class Database extends BaseClient {
    * @returns number
    */
   public size() {
+
     let dirs = fs.readdirSync(`${this.path}/ajax_databases/${this.database}/pointers`);
+
     let count = 0;
 
     for (const file of dirs) {
+
       count += 1;
-    }
+    };
 
     return count;
-  }
+  };
 
   /**
    * @public
@@ -451,21 +434,22 @@ export class Database extends BaseClient {
    * @returns number
    */
   public sizeContainer(pointer: string) {
-    if ( !this.CheckPointer(pointer) ) 
-      return;
+
+    if (!this.CheckPointer(pointer)) return;
 
     let containers = fs.readdirSync(`${this.path}/ajax_databases/${this.database}/containers`);
 
     let size = 0;
 
     for (const container of containers) {
+
       let containerFile = fs.readFileSync(`${this.path}/ajax_databases/${this.database}/containers/${container}`);
 
       let data = BSON.deserialize(containerFile);
 
-      if (data.pointer === pointer) 
-        size += 1;
-    }
+      if (data.pointer === pointer) size += 1;
+    };
+  
     return size;
-  } 
-}
+  };
+};

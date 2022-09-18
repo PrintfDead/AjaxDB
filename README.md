@@ -1,16 +1,21 @@
 # @AjaxDB
-### [BeeDB](https://github.com/theMarzon/BeeDB) inspired package
+
+> This library was inspired by [BeeDB](https://github.com/theMarzon/BeeDB)
+
 # Information:
+
 - :wrench: Efficient and fast database using BSON.
-- :butterfly: Simple and easy to use
-- :smile: Version 2.0
+- :butterfly: Simple and easy to use.
+- :smile: Version 2.0.
 
 # Installation
+
 ```sh
 npm i ajax.db --save
 ```
 
 # Examples:
+
 - `Create Database & Start Client Instance:`
 ```ts
 import { Client } from 'ajax.db';
@@ -29,6 +34,7 @@ const AjaxDB = new Client({ database: "DatabaseName", path: "path/to/databases" 
  * @description The event is emitted when the Client class is instantiated.
 */
 AjaxDB.on('start', () => {
+
   console.log("AjaxDB start!");
 });
 
@@ -39,6 +45,7 @@ AjaxDB.on('start', () => {
  * @description The event is emitted on some conditions of the Database class.
 */
 AjaxDB.on('error', (error) => {
+
   console.error(error);  
 });
 
@@ -55,7 +62,9 @@ AjaxDB.on('error', (error) => {
 */
 await AjaxDB.CreatePointer("PointerName", "ContainerName");
 ```
+
 - `push`
+
 ```ts
 /** 
  * @param {string} pointer - pointer name
@@ -66,7 +75,9 @@ await AjaxDB.CreatePointer("PointerName", "ContainerName");
 */
 await AjaxDB.push("PointerName", { "id": number | string, "content": object }, AUTO_INCREMENT: boolean); 
 ```
+
 - `deleteByKey`
+
 ```ts
 /** 
  * @param {string} pointer - pointer name
@@ -86,7 +97,9 @@ await AjaxDB.deleteByKey("PointerName", "KeyName"); // void
 */
 await AjaxDB.deleteSeveralByKey(["Pointers"...], ["Keys"...]); // void
 ```
+
 - `get`
+
 ```ts
 /**
  * @param {string} pointer - pointer name
@@ -106,7 +119,9 @@ await AjaxDB.get("PointerName", { "KeyName": "KeyValue" });
 */
 AjaxDB.size() // OUTPUT: number
 ```
+
 - `edit`
+
 ```ts
 /** 
  * @param {string} pointer - pointer name
@@ -122,5 +137,6 @@ await AjaxDB.edit("PointerName", { "FindKey": "ValueKey" }, { "key": "KeyName", 
 ```
 
 ## Development notes
+
 - The database is in the testing phase, report any errors.
 - Thank you for reading!

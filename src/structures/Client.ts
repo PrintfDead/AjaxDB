@@ -1,101 +1,85 @@
 import fs from 'node:fs';
 
+import { EventEmitter } from 'node:events';
+
+import {
+  
+    access as checkAccess,
+    mkdir  as createDirectory
+} from 'node:fs/promises';
+
+import { resolve as createPath } from 'node:path';
+
 import BSON from 'bson';
 
-import { BaseClient } from './BaseClient';
-import { Database   } from './Database';
+import { ClientOptions } from '../types/Client.js';
 
-interface options {
+export default class extends EventEmitter {
 
-  path:     string
-  database: string
+    options: Required<ClientOptions>;
 
-  useEventErr?: boolean
-};
+    directories: {
 
-export interface Client {
+        pointers:   string
+        containers: string
+    };
 
-  database:  string
-  shortPath: string
+    constructor (options: ClientOptions) {
 
-  options: options
-};
+        super();
 
-export class Client extends Database {
-  /**
-   * 
-   * @param {object} options - Put database name and path 
-   */
-  constructor(options: options) {
-    super({ database: options.database, path: options.path });
-    if(this.path.endsWith("/")) this.path = this.path.slice(0, -1);
-    this.options = options;
-    this.shortPath = this.path + "/ajax_databases/" + options.database;
-    this.database = options.database;
-      
-    if(!fs.existsSync(this.path)) {
-      throw new Error("Path is not exists");
+        this.options = {
+
+            database: options.database,
+
+            directory: options.directory ?? createPath(process.cwd(), 'databases', 'ajax')
+        };
+
+        this.directories = {
+
+            pointers:   createPath(this.options.directory, options.database, 'pointers'),
+            containers: createPath(this.options.directory, options.database, 'containers')
+        };
+
+        this.emit('start');
     }
-
-    this.CheckAndCreateFolders();
-
-    this.emit('start');
-  }
   
-  protected async CheckAndCreateFolders() {
+    async checkDirectories () {
 
-    if(!fs.existsSync(this.path+"/ajax_databases/")) {
-      await fs.promises.mkdir(this.path+"/ajax_databases/", {recursive: true}).catch((err) => {
-        if (err) this.emit("error", err);
-      });
-    }
+        await checkAccess(this.directories.pointers)
+            .catch((err) => {
 
-    if(!fs.existsSync(this.shortPath)) {
-      await fs.promises.mkdir(this.shortPath, {recursive: true}).catch((e) => this.emit("error", e));
-    }
-    
-    if(!fs.existsSync(this.path + "/ajax_databases/" + this.database + "/pointers")) {
-      await this.CreatePointers();
-    }
+                if (err.code === 'ENOENT') createDirectory(this.directories.pointers, { recursive: true });
+            });
 
-    if(!fs.existsSync(this.shortPath+"/containers")){
-      await this.CreateContainers();
-    }
 
-  }
+        await checkAccess(this.directories.containers)
+            .catch((err) => {
 
-  /**
-   * 
-   * @param {string} key - Pointer name
-   * @param {string} containerName - Container name
-   * @returns void
-   */
-  public async CreatePointer(key: string, containerName: string) {
+                if (err.code === 'ENOENT') createDirectory(this.directories.containers, { recursive: true });
+            });
+    };
 
-    if (fs.existsSync(`${this.path}/ajax_databases/${this.database}/pointers/${key}.bson`)) return;
-    if (fs.existsSync(`${this.path}/ajax_databases/${this.database}/containers/${containerName}.bson`)) return;
+    async createPointer (key: string, containerName: string) {
 
-    const pointerData = BSON.serialize({
-      "key": key,
-      "container": `${containerName}`
-    });
-    const containerData = BSON.serialize({
-      "pointer": key,
-      "containers": [] 
-    });
-    
-    await fs.promises
-      .mkdir(`${this.path}/ajax_databases/${this.database}/pointers`, { recursive: true })
-      .then(async (x) => {
+        const pointersFilePath  = createPath(this.directories.pointers, `${containerName}.bson`);
+        const containerFilePath = createPath(this.directories.containers, `${key}.bson`);
+
+        if (fs.existsSync(pointersFilePath)
+        ||  fs.existsSync(containerFilePath)) return;
+
+        const pointerData = BSON.serialize({ key, containerName });
   
-        await fs.promises.writeFile(`${this.shortPath}/pointers/${key}.bson`, pointerData);
-      })
-      .catch((err) => console.error(err));
+        const containerData = BSON.serialize({
 
-    await fs.promises.mkdir(`${this.path}/ajax_databases/${this.database}/containers`, { recursive: true })
-      .then(async (x) => {
-        await fs.promises.writeFile(`${this.shortPath}/containers/${containerName}.bson`, containerData);
-      })
-      .catch((err) => console.error(err));
-  };
+            pointer: key,
+
+            containers: [] 
+        });
+
+        await this.checkDirectories();
+    
+        fs.promises.writeFile(pointersFilePath, pointerData);
+        fs.promises.writeFile(containerFilePath, containerData);
+    };
 };
