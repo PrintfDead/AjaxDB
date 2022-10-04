@@ -1,6 +1,6 @@
 {
   "name": "ajax.db",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "Fast efficient database, uses BSON",
   "main": "dist/index.js",
   "types": "./typings/index.d.ts",
@@ -32,19 +32,19 @@
     "node": ">=16.*"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.2",
-    "@types/bson": "^4.2.0",
-    "@types/crypto-js": "^4.1.1",
     "@types/node": "^18.7.18",
     "@typescript-eslint/eslint-plugin": "^5.37.0",
-    "bcryptjs": "^2.4.3",
     "clean-jsdoc-theme": "^4.1.8",
-    "crypto-js": "^4.1.1",
     "eslint": "^8.23.1",
     "jsdoc-ts-utils": "^3.0.0",
     "typescript": "^4.8.3"
   },
   "dependencies": {
-    "bson": "^4.7.0"
+    "@types/bcryptjs": "^2.4.2",
+    "@types/bson": "^4.2.0",
+    "@types/crypto-js": "^4.1.1",
+    "bcryptjs": "^2.4.3",
+    "bson": "^4.7.0",
+    "crypto-js": "^4.1.1"
   }
 }

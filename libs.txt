@@ -1,0 +1,132 @@
+{
+  "version": "2.1.4",
+  "name": "ajax.db",
+  "dependencies": {
+    "@types/bcryptjs": {
+      "version": "2.4.2",
+      "resolved": "https://registry.npmjs.org/@types/bcryptjs/-/bcryptjs-2.4.2.tgz",
+      "overridden": false
+    },
+    "@types/bson": {
+      "version": "4.2.0",
+      "resolved": "https://registry.npmjs.org/@types/bson/-/bson-4.2.0.tgz",
+      "overridden": false
+    },
+    "@types/crypto-js": {
+      "version": "4.1.1",
+      "resolved": "https://registry.npmjs.org/@types/crypto-js/-/crypto-js-4.1.1.tgz",
+      "overridden": false
+    },
+    "@types/node": {
+      "version": "18.7.18",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.7.18.tgz",
+      "overridden": false
+    },
+    "@typescript-eslint/eslint-plugin": {
+      "version": "5.37.0",
+      "resolved": "https://registry.npmjs.org/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.37.0.tgz",
+      "overridden": false
+    },
+    "bcryptjs": {
+      "version": "2.4.3",
+      "resolved": "https://registry.npmjs.org/bcryptjs/-/bcryptjs-2.4.3.tgz",
+      "overridden": false
+    },
+    "bson": {
+      "version": "4.7.0",
+      "resolved": "https://registry.npmjs.org/bson/-/bson-4.7.0.tgz",
+      "overridden": false
+    },
+    "clean-jsdoc-theme": {
+      "version": "4.1.8",
+      "resolved": "https://registry.npmjs.org/clean-jsdoc-theme/-/clean-jsdoc-theme-4.1.8.tgz",
+      "overridden": false
+    },
+    "crypto-js": {
+      "version": "4.1.1",
+      "resolved": "https://registry.npmjs.org/crypto-js/-/crypto-js-4.1.1.tgz",
+      "overridden": false
+    },
+    "eslint": {
+      "version": "8.23.1",
+      "resolved": "https://registry.npmjs.org/eslint/-/eslint-8.23.1.tgz",
+      "overridden": false
+    },
+    "jsdoc-ts-utils": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/jsdoc-ts-utils/-/jsdoc-ts-utils-3.0.0.tgz",
+      "overridden": false
+    },
+    "typescript": {
+      "version": "4.8.3",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-4.8.3.tgz",
+      "overridden": false
+    }
+  }
+}
+{
+  "version": "2.1.4",
+  "name": "ajax.db",
+  "dependencies": {
+    "@types/bcryptjs": {
+      "version": "2.4.2",
+      "resolved": "https://registry.npmjs.org/@types/bcryptjs/-/bcryptjs-2.4.2.tgz",
+      "overridden": false
+    },
+    "@types/bson": {
+      "version": "4.2.0",
+      "resolved": "https://registry.npmjs.org/@types/bson/-/bson-4.2.0.tgz",
+      "overridden": false
+    },
+    "@types/crypto-js": {
+      "version": "4.1.1",
+      "resolved": "https://registry.npmjs.org/@types/crypto-js/-/crypto-js-4.1.1.tgz",
+      "overridden": false
+    },
+    "@types/node": {
+      "version": "18.7.18",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.7.18.tgz",
+      "overridden": false
+    },
+    "@typescript-eslint/eslint-plugin": {
+      "version": "5.37.0",
+      "resolved": "https://registry.npmjs.org/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.37.0.tgz",
+      "overridden": false
+    },
+    "bcryptjs": {
+      "version": "2.4.3",
+      "resolved": "https://registry.npmjs.org/bcryptjs/-/bcryptjs-2.4.3.tgz",
+      "overridden": false
+    },
+    "bson": {
+      "version": "4.7.0",
+      "resolved": "https://registry.npmjs.org/bson/-/bson-4.7.0.tgz",
+      "overridden": false
+    },
+    "clean-jsdoc-theme": {
+      "version": "4.1.8",
+      "resolved": "https://registry.npmjs.org/clean-jsdoc-theme/-/clean-jsdoc-theme-4.1.8.tgz",
+      "overridden": false
+    },
+    "crypto-js": {
+      "version": "4.1.1",
+      "resolved": "https://registry.npmjs.org/crypto-js/-/crypto-js-4.1.1.tgz",
+      "overridden": false
+    },
+    "eslint": {
+      "version": "8.23.1",
+      "resolved": "https://registry.npmjs.org/eslint/-/eslint-8.23.1.tgz",
+      "overridden": false
+    },
+    "jsdoc-ts-utils": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/jsdoc-ts-utils/-/jsdoc-ts-utils-3.0.0.tgz",
+      "overridden": false
+    },
+    "typescript": {
+      "version": "4.8.3",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-4.8.3.tgz",
+      "overridden": false
+    }
+  }
+}
